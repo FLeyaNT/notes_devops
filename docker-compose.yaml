@@ -1,0 +1,57 @@
+services:
+  notes-db:
+    image: postgres:16
+    container_name: notes-db
+    environment:
+      POSTGRES_USER: ${POSTGRES__USER}
+      POSTGRES_PASSWORD: ${POSTGRES__PASSWORD}
+      POSTGRES_DB: notes_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES__USER} -d notes_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  notes-backend:
+    build:
+      context: ./backend
+    container_name: notes-backend
+    depends_on:
+      notes-db:
+        condition: service_healthy
+    environment:
+      POSTGRES__USER: ${POSTGRES__USER}
+      POSTGRES__PASSWORD: ${POSTGRES__PASSWORD}
+    healthcheck:
+      test:  ["CMD-SHELL", "wget -qO- http://127.0.0.1:8000/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "1"
+
+  notes-frontend:
+    build: ./frontend
+    depends_on:
+      - notes-backend
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./nginx
+    depends_on:
+      - notes-backend
+      - notes-frontend
+    ports:
+      - "8443:8443"
+    restart: unless-stopped
+
+volumes:
+  db_data:
