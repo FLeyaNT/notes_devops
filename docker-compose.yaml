@@ -27,6 +27,8 @@ services:
       POSTGRES__PASSWORD: ${POSTGRES__PASSWORD}
       POSTGRES__HOST: ${POSTGRES__HOST}
       DEBUG: ${DEBUG}
+    ports:
+      - "8000:8000"
     healthcheck:
       test:  ["CMD-SHELL", "wget -qO- http://127.0.0.1:8000/api/health || exit 1"]
       interval: 10s
