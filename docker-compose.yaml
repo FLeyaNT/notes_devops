@@ -25,8 +25,10 @@ services:
     environment:
       POSTGRES__USER: ${POSTGRES__USER}
       POSTGRES__PASSWORD: ${POSTGRES__PASSWORD}
+      POSTGRES__HOST: ${POSTGRES__HOST}
+      DEBUG: ${DEBUG}
     healthcheck:
-      test:  ["CMD-SHELL", "wget -qO- http://127.0.0.1:8000/health || exit 1"]
+      test:  ["CMD-SHELL", "wget -qO- http://127.0.0.1:8000/api/health || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 5

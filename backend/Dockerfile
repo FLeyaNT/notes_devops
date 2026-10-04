@@ -2,7 +2,7 @@
 FROM python:3.12-alpine
 WORKDIR /app
 # Установка зависимостей до исходников
-COPY requirements.txt .
+COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 # В образ не попадают файлы обозначенные в .dockerignore
 COPY . .
