@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import NoteForm from "./components/NoteForm";
 import NoteList from "./components/NoteList";
 
-const API_URL = "/api/notes/"
+const API_URL = "/api/notes/";
+const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -147,6 +148,12 @@ function App() {
         )}
 
       </main>
+
+      <footer className="mx-auto mt-10 w-full max-w-6xl border-t border-white/10 pt-4 text-right text-sm text-[#64748B]">
+        <span className="font-mono">
+          {APP_VERSION ? `v${APP_VERSION}` : "dev"}
+        </span>
+      </footer>
 
       {/* Modal */}
       {isFormOpen && (
