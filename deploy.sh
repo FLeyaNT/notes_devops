@@ -19,7 +19,7 @@ set -Eeuo pipefail
 # ---------- Настройки ----------
 COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.yml}"   # явно: override на сервере не подхватится
 BACKEND_SERVICE="${BACKEND_SERVICE:-notes-backend}"
-DB_SERVICE="${DB_SERVICE:-db}"                       # имя СЕРВИСА БД в compose (не container_name)
+DB_SERVICE="${DB_SERVICE:-notes-db}"                       # имя СЕРВИСА БД в compose (не container_name)
 NGINX_IMAGE="${NGINX_IMAGE:-notes-nginx}"
 BUILD_NGINX_WITH_SECRETS="${BUILD_NGINX_WITH_SECRETS:-1}"  # 0, если сертификаты монтируются при запуске
 MIGRATE_CMD="${MIGRATE_CMD:-alembic upgrade head}"
