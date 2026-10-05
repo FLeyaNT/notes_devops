@@ -55,7 +55,7 @@ services:
       - notes-frontend
     ports:
       - "8443:8443"
-      - "80:80"
+      # - "80:80"
     restart: unless-stopped
 
 volumes:
