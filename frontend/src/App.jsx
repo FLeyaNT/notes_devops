@@ -69,7 +69,7 @@ function App() {
     try {
       setError("");
 
-      const response = await fetch(`${API_URL}${noteId}/`, {
+      const response = await fetch(`${API_URL}${noteId}`, {
         method: "DELETE",
       });
 
