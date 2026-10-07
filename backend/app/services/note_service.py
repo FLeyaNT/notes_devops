@@ -46,7 +46,7 @@ class NoteService:
         self,
         note_id: int
     ) -> None:
-        note = self._get_by_id(note_id)
+        note = await self._get_by_id(note_id)
 
         await self._session.delete(note)
         await self._session.commit()
