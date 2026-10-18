@@ -1,19 +1,16 @@
 import asyncio
 import logging
-from venv import logger
 
 import uvicorn
-
 from fastapi import status
-
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 from starlette.responses import JSONResponse
 
+from app.api.router import api_router
 from app.core.config import settings
 from app.create_app import create_app
-from app.api.router import api_router
 from app.database.config import async_engine
-
 
 logging.basicConfig(
     level=(
@@ -22,6 +19,8 @@ logging.basicConfig(
     ),
     format=settings.logging.log_format
 )
+
+logger = logging.getLogger(__name__)
 
 app = create_app()
 
@@ -39,7 +38,7 @@ async def health():
             async with async_engine.connect() as conn:
                 await conn.execute(text('SELECT 1'))
         db_ok = True
-    except Exception as e:
+    except (SQLAlchemyError, OSError) as e:
         logger.warning('DB health check failed: %s', e)
 
     return JSONResponse(

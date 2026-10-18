@@ -7,10 +7,9 @@ from app.schemas.note import (
     NoteCreate,
     NoteResponse,
 )
-from ..dependencies import (
-    NoteServiceDep
-)
+
 from ...core.exceptions import NotFoundException
+from ..dependencies import NoteServiceDep
 from ..exceptions import APINotFoundException
 
 router = APIRouter(

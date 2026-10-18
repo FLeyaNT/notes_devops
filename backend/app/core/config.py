@@ -3,11 +3,7 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel
-
-from pydantic_settings import (
-    BaseSettings,
-    SettingsConfigDict
-)
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .constants import LOG_DEFAULT_FORMAT
 

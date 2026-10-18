@@ -2,10 +2,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.exceptions import NotFoundException
-from app.schemas.note import (
-    NoteCreate
-)
 from app.models.note import Note
+from app.schemas.note import NoteCreate
 
 
 class NoteService:

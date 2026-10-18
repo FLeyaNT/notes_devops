@@ -8,7 +8,7 @@ RUN npm ci
 
 COPY . .
 
-RUN --mount=type=secret,id=release_version \
+RUN --mount=type=secret,id=release_version,required=true \
     VITE_APP_VERSION="$(cat /run/secrets/release_version)" npm run build
 
 

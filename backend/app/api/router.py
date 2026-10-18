@@ -2,7 +2,6 @@ from fastapi import APIRouter
 
 from app.api.endpoints import notes
 
-
 api_router = APIRouter(
     prefix='/api'
 )

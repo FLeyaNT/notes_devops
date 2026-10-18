@@ -1,15 +1,15 @@
 import asyncio
 import logging
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.config import settings
 from app.database.config import async_engine
-
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         async with asyncio.timeout(2):
             async with async_engine.connect() as conn:
                 await conn.execute(text('SELECT 1'))
-    except Exception as e:
+    except (SQLAlchemyError, OSError) as e:
         logger.warning('DB health check failed: %s', e)
 
     yield

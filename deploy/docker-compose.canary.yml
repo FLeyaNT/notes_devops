@@ -1,0 +1,16 @@
+services:
+  notes-backend-canary:
+    image: ${IMAGE_PREFIX}/backend:${CANARY_TAG:?}
+    environment:
+      POSTGRES__HOST: notes-db
+      POSTGRES__USER: notes
+      POSTGRES__PASSWORD: ${DB_PASSWORD}
+      DEBUG: "false"
+    ports:
+      - "8444:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8000/api/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
