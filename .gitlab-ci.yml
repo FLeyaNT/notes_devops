@@ -42,7 +42,10 @@ variables:
     - apk add --no-cache openssh-client curl
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY_B64" | base64 -d | ssh-add -
-    - mkdir -p ~/.ssh && ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - test -n "$DEPLOY_HOST" || { echo "Переменная DEPLOY_HOST не задана"; exit 1; }
+    - echo "Подключаюсь к $DEPLOY_HOST порт 22"
+    - ssh-keyscan -T 10 -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
     - export IMAGE_TAG="${IMAGE_TAG:-${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}}"
     - export SSH_TARGET="$DEPLOY_USER@$DEPLOY_HOST"
 
