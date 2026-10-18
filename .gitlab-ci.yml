@@ -141,6 +141,8 @@ deploy:
   extends: [.ssh-deploy, .release-manual]
   stage: deploy
   needs: [build:backend, build:frontend, build:nginx]
+  variables:
+    RUN_MIGRATIONS: "true"
   environment:
     name: production
     url: "https://$DEPLOY_HOST:8443"
@@ -152,8 +154,15 @@ deploy:
       ssh "$SSH_TARGET"
       "cd /opt/devops-stack && chmod 600 .env &&
       echo '$CI_REGISTRY_PASSWORD' | docker login -u '$CI_REGISTRY_USER' --password-stdin '$CI_REGISTRY' &&
-      docker compose pull && docker compose up -d --wait --wait-timeout 180 &&
-      docker image prune -f"
+      docker compose pull &&
+      docker compose up -d --wait --wait-timeout 120 notes-db"
+    - |
+      if [ "$RUN_MIGRATIONS" = "true" ]; then
+        ssh "$SSH_TARGET" "cd /opt/devops-stack && docker compose run --rm -T --no-deps notes-backend alembic upgrade head"
+      else
+        echo "Миграции пропущены (RUN_MIGRATIONS=$RUN_MIGRATIONS)"
+      fi
+    - ssh "$SSH_TARGET" "cd /opt/devops-stack && docker compose up -d --wait --wait-timeout 180 && docker image prune -f"
 
 smoke:
   image:
