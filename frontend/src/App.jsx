@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import NoteForm from "./components/NoteForm";
 import NoteList from "./components/NoteList";
 
+// Some test
+
 const API_URL = "/api/notes/";
 const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 
