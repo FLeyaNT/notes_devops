@@ -24,7 +24,7 @@ variables:
   services:
     - name: docker:27-dind
       alias: docker
-      command: ["--insecure-registry=178.154.214.140:5000"]
+      command: ["--insecure-registry=158.160.211.36:5000"]
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
     DOCKER_HOST: "tcp://docker:2376"
