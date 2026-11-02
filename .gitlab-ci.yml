@@ -218,7 +218,7 @@ promote:
       sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$IMAGE_TAG/' .env &&
       echo '$CI_REGISTRY_PASSWORD' | docker login -u '$CI_REGISTRY_USER' --password-stdin '$CI_REGISTRY' &&
       docker compose pull && docker compose up -d --wait --wait-timeout 180 &&
-      docker compose -f docker-compose.canary.yml rm -sf notes-backend-canary"
+      CANARY_TAG='$IMAGE_TAG' docker compose -f docker-compose.canary.yml rm -sf notes-backend-canary"
 
 # ── 5.5 blue/green ──
 deploy:bluegreen:
