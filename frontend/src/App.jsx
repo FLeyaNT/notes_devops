@@ -140,7 +140,7 @@ function App() {
           </p>
         ) : notes.length === 0 ? (
           <p className="text-[#64748B]">
-            Пока нет заметок
+            Пока нет заметок — создайте первую!
           </p>
         ) : (
           <NoteList
